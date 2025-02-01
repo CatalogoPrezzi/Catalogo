@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +27,11 @@
             font-size: 1.2em;
             color: #555;
         }
+        @media (max-width: 768px) {
+            #single-image {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -44,7 +49,6 @@
         for (let i = 1; i <= numberOfPrints; i++) {
             const printDiv = document.createElement('div');
             printDiv.className = 'col-md-4 print mb-4';
-            printDiv.innerHTML = `<h2>Print ${i}</h2>`;
 
             const img = document.createElement('img');
             img.src = `imgs/${i}/1.jpg`; // Display the first image initially
