@@ -27,11 +27,6 @@
             font-size: 1.2em;
             color: #555;
         }
-        @media (max-width: 768px) {
-            #single-image {
-                display: none;
-            }
-        }
         .description {
             font-size: 1em;
             color: #333;
@@ -52,9 +47,21 @@
             padding: 5px;
             text-align: center;
         }
-        .description-content {
-            display: flex;
-            justify-content: space-between;
+        @media (max-width: 768px) {
+            #single-image {
+                display: none;
+            }
+            .print .description {
+                display: block;
+            }
+        }
+        @media (min-width: 769px) {
+            .print .description {
+                display: none;
+            }
+            #main-description {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -63,7 +70,7 @@
         <p class="instructions">Passa il mouse su un'immagine e scorri per sfogliare le immagini. Scorri a sinistra o a destra sui dispositivi mobili.</p>
         <div id="prints-container" class="row"></div>
         <img id="single-image" src="" alt="" class="img-fluid">
-        <div id="description" class="description"></div>
+        <div id="main-description" class="description"></div>
         <div class="progress">
             <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
@@ -72,27 +79,27 @@
     <script>
         const printsContainer = document.getElementById('prints-container');
         const singleImage = document.getElementById('single-image');
-        const descriptionDiv = document.getElementById('description');
+        const mainDescription = document.getElementById('main-description');
         const progressBar = document.getElementById('progress-bar');
         const numberOfPrints = 3; // Change this to the number of folders you have
         const totalImagesPerPrint = 8; // Change this to the number of images in each folder
 
         const descriptions = {
             1: [
-                { name: '<b>voronoi piccolo</b>', dimensions: '<u>33x35x50mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>voronoi grande</b>', dimensions: '<u>67x70x100mm</u>', price: '<span class="price">4€</span>' }
+                { name: '<b>voronoi piccolo</b>', price: '<span class="price">2€</span>' },
+                { name: '<b>voronoi grande</b>', price: '<span class="price">4€</span>' }
             ],
             2: [
-                { name: '<b>elefante piccolo</b>', dimensions: '<u>50x52x43mm</u>', price: '<span class="price">2.5€</span>' },
-                { name: '<b>elefante grande</b>', dimensions: '<u>106x111x92mm</u>', price: '<span class="price">5€</span>' }
+                { name: '<b>elefante piccolo</b>', price: '<span class="price">2.5€</span>' },
+                { name: '<b>elefante grande</b>', price: '<span class="price">5€</span>' }
             ],
             3: [
-                { name: '<b>flex cammina piccolo</b>', dimensions: '<u>50x40x5mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex cammina grande</b>', dimensions: '<u>100x80x10mm</u>', price: '<span class="price">4€</span>' },
-                { name: '<b>flex stiracchia piccolo</b>', dimensions: '<u>45x50x5mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex stiracchia grande</b>', dimensions: '<u>90x100x9mm</u>', price: '<span class="price">4€</span>' },
-                { name: '<b>flex steso piccolo</b>', dimensions: '<u>16x50x9mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex steso grande</b>', dimensions: '<u>32x100x18mm</u>', price: '<span class="price">4€</span>' }
+                { name: '<b>flex cammina piccolo</b>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex stiracchia piccolo</b>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex steso piccolo</b>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex cammina grande</b>', price: '<span class="price">4€</span>' },
+                { name: '<b>flex stiracchia grande</b>',  price: '<span class="price">4€</span>' },
+                { name: '<b>flex steso grande</b>', price: '<span class="price">4€</span>' }
             ]
         };
 
@@ -107,7 +114,15 @@
             img.dataset.print = i; // Store the print number
             printDiv.appendChild(img);
 
+            const descriptionDiv = document.createElement('div');
+            descriptionDiv.className = 'description';
+            descriptionDiv.dataset.print = i;
+            printDiv.appendChild(descriptionDiv);
+
             printsContainer.appendChild(printDiv);
+
+            // Update the description for the initial load
+            updateDescription(i);
         }
 
         let touchStartX = 0;
@@ -140,13 +155,22 @@
             let descriptionHTML = '<table class="description-table"><tbody>';
             for (let i = 0; i < desc.length; i += 3) {
                 descriptionHTML += '<tr>';
-                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${desc[i].dimensions} ${desc[i].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${desc[i + 1].dimensions} ${desc[i + 1].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${desc[i + 2].dimensions} ${desc[i + 2].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${desc[i].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${desc[i + 1].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${desc[i + 2].price}` : ''}</div></td>`;
                 descriptionHTML += '</tr>';
             }
             descriptionHTML += '</tbody></table>';
-            descriptionDiv.innerHTML = descriptionHTML;
+
+            const descriptionDivs = document.querySelectorAll('.description');
+            descriptionDivs.forEach(div => {
+                if (parseInt(div.dataset.print, 10) === printNumber) {
+                    div.innerHTML = descriptionHTML;
+                }
+            });
+
+            // Update the main description for PC view
+            mainDescription.innerHTML = descriptionHTML;
         }
 
         function updateProgressBar(currentIndex, totalImages) {
