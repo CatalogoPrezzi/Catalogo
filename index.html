@@ -160,12 +160,13 @@
 
         function updateDescription(printNumber) {
             const desc = descriptions[printNumber];
+            const isMobile = window.innerWidth <= 768;
             let descriptionHTML = '<table class="description-table"><tbody>';
             for (let i = 0; i < desc.length; i += 3) {
                 descriptionHTML += '<tr>';
-                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${desc[i].dimensions} ${desc[i].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${desc[i + 1].dimensions} ${desc[i + 1].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${desc[i + 2].dimensions} ${desc[i + 2].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${isMobile ? '' : desc[i].dimensions} ${desc[i].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${isMobile ? '' : desc[i + 1].dimensions} ${desc[i + 1].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${isMobile ? '' : desc[i + 2].dimensions} ${desc[i + 2].price}` : ''}</div></td>`;
                 descriptionHTML += '</tr>';
             }
             descriptionHTML += '</tbody></table>';
