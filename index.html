@@ -47,6 +47,10 @@
             padding: 5px;
             text-align: center;
         }
+        .description-content {
+            display: flex;
+            justify-content: space-between;
+        }
         @media (max-width: 768px) {
             #single-image {
                 display: none;
@@ -81,25 +85,29 @@
         const singleImage = document.getElementById('single-image');
         const mainDescription = document.getElementById('main-description');
         const progressBar = document.getElementById('progress-bar');
-        const numberOfPrints = 3; // Change this to the number of folders you have
+        const numberOfPrints = 4; // Change this to the number of folders you have
         const totalImagesPerPrint = 8; // Change this to the number of images in each folder
 
         const descriptions = {
             1: [
-                { name: '<b>voronoi piccolo</b>', price: '<span class="price">2€</span>' },
-                { name: '<b>voronoi grande</b>', price: '<span class="price">4€</span>' }
+                { name: '<b>voronoi piccolo</b>', dimensions: '<u>33x35x50mm</u>', price: '<span class="price">2€</span>' },
+                { name: '<b>voronoi grande</b>', dimensions: '<u>67x70x100mm</u>', price: '<span class="price">4€</span>' }
             ],
             2: [
-                { name: '<b>elefante piccolo</b>', price: '<span class="price">2.5€</span>' },
-                { name: '<b>elefante grande</b>', price: '<span class="price">5€</span>' }
+                { name: '<b>elefante piccolo</b>', dimensions: '<u>50x52x43mm</u>', price: '<span class="price">2.5€</span>' },
+                { name: '<b>elefante grande</b>', dimensions: '<u>106x111x92mm</u>', price: '<span class="price">5€</span>' }
             ],
             3: [
-                { name: '<b>flex cammina piccolo</b>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex stiracchia piccolo</b>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex steso piccolo</b>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex cammina grande</b>', price: '<span class="price">4€</span>' },
-                { name: '<b>flex stiracchia grande</b>',  price: '<span class="price">4€</span>' },
-                { name: '<b>flex steso grande</b>', price: '<span class="price">4€</span>' }
+                { name: '<b>flex cammina piccolo</b>', dimensions: '<u>50x40x5mm</u>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex cammina grande</b>', dimensions: '<u>100x80x10mm</u>', price: '<span class="price">4€</span>' },
+                { name: '<b>flex stiracchia piccolo</b>', dimensions: '<u>45x50x5mm</u>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex stiracchia grande</b>', dimensions: '<u>90x100x9mm</u>', price: '<span class="price">4€</span>' },
+                { name: '<b>flex steso piccolo</b>', dimensions: '<u>16x50x9mm</u>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex steso grande</b>', dimensions: '<u>32x100x18mm</u>', price: '<span class="price">4€</span>' }
+            ],
+            4: [
+                { name: '<b>orso piccolo</b>', dimensions: '<u>42x38x50mm</u>', price: '<span class="price">2.5€</span>' },
+                { name: '<b>orso grande</b>', dimensions: '<u>84x75x100mm</u>', price: '<span class="price">5€</span>' }
             ]
         };
 
@@ -155,9 +163,9 @@
             let descriptionHTML = '<table class="description-table"><tbody>';
             for (let i = 0; i < desc.length; i += 3) {
                 descriptionHTML += '<tr>';
-                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${desc[i].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${desc[i + 1].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${desc[i + 2].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${desc[i].dimensions} ${desc[i].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${desc[i + 1].dimensions} ${desc[i + 1].price}` : ''}</div></td>`;
+                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${desc[i + 2].dimensions} ${desc[i + 2].price}` : ''}</div></td>`;
                 descriptionHTML += '</tr>';
             }
             descriptionHTML += '</tbody></table>';
@@ -190,6 +198,7 @@
 
         printsContainer.addEventListener('wheel', (event) => {
             if (event.target.tagName === 'IMG') {
+                event.preventDefault(); // Prevent scrolling
                 const img = event.target;
                 const printNumber = img.dataset.print;
                 let currentIndex = parseInt(img.dataset.index, 10);

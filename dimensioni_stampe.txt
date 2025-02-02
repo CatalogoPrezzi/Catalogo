@@ -20,3 +20,7 @@ flex steso grande     	            32x100x18mm             4€
 
 completo piccolo                    28x45x50mm              2€
 completo grande                     56x91x100mm             4€
+
+
+orso piccolo                        42x38x50               2.5€
+orso grande                         84x75x100                5€
