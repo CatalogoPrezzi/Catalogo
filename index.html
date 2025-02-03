@@ -10,9 +10,6 @@
             font-family: Arial, sans-serif;
         }
         .print img {
-            width: 200px; /* Set a fixed width */
-            height: 200px; /* Set a fixed height */
-            object-fit: cover; /* Ensure the image covers the area */
             transition: transform 0.3s;
         }
         .print img:hover {
@@ -53,6 +50,10 @@
             justify-content: space-between;
         }
         @media (max-width: 768px) {
+            .print img {
+                width: 100%; /* Set width to 100% */
+                height: auto; /* Maintain aspect ratio */
+            }
             #single-image {
                 display: none;
             }
@@ -61,6 +62,11 @@
             }
         }
         @media (min-width: 769px) {
+            .print img {
+                width: 200px; /* Set a fixed width */
+                height: 200px; /* Set a fixed height */
+                object-fit: cover; /* Ensure the image covers the area */
+            }
             .print .description {
                 display: none;
             }
@@ -86,7 +92,7 @@
         const singleImage = document.getElementById('single-image');
         const mainDescription = document.getElementById('main-description');
         const progressBar = document.getElementById('progress-bar');
-        const numberOfPrints = 5; // Change this to the number of folders you have
+        const numberOfPrints = 4; // Change this to the number of folders you have
         const totalImagesPerPrint = 8; // Change this to the number of images in each folder
 
         const descriptions = {
@@ -109,10 +115,6 @@
             4: [
                 { name: '<b>orso piccolo</b>', dimensions: '<u>42x38x50mm</u>', price: '<span class="price">2.5€</span>' },
                 { name: '<b>orso grande</b>', dimensions: '<u>84x75x100mm</u>', price: '<span class="price">5€</span>' }
-            ],
-            5: [
-                { name: '<b>buddha piccolo</b>', dimensions: '<u>61x35x75</u>', price: '<span class="price">3€</span>' },
-                { name: '<b>buddha grande</b>', dimensions: '<u>122x71x150</u>', price: '<span class="price">6€</span>' }
             ]
         };
 

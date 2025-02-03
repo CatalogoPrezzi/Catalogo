@@ -27,3 +27,7 @@ orso grande                         84x75x100                5€
 
 buddha piccolo 		   	            61x35x75		        3€
 buddha grande 			            122x71x150		        6€
+,5: [
+                { name: '<b>buddha piccolo</b>', dimensions: '<u>61x35x75</u>', price: '<span class="price">3€</span>' },
+                { name: '<b>buddha grande</b>', dimensions: '<u>122x71x150</u>', price: '<span class="price">6€</span>' }
+            ]
