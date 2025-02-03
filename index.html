@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,74 +10,91 @@
         body {
             font-family: Arial, sans-serif;
         }
+
         .print img {
             max-width: 100%;
             height: auto;
             transition: transform 0.3s;
         }
+
         .print img:hover {
             transform: scale(1.05);
         }
+
         #single-image {
             max-width: 100%;
             height: auto;
             margin-top: 20px;
         }
+
         .instructions {
             margin-bottom: 20px;
             font-size: 1.2em;
             color: #555;
         }
+
         .description {
             font-size: 1em;
             color: #333;
             margin-top: 10px;
         }
+
         .progress {
             height: 5px;
             margin-top: 10px;
         }
+
         .price {
             color: green;
         }
+
         .description-table {
             width: 100%;
             table-layout: fixed;
         }
+
         .description-table td {
             padding: 5px;
             text-align: center;
         }
+
         .description-content {
             display: flex;
             justify-content: space-between;
         }
+
         @media (max-width: 768px) {
             #single-image {
                 display: none;
             }
+
             .print .description {
                 display: none;
             }
         }
+
         @media (min-width: 769px) {
             .print .description {
                 display: none;
             }
+
             #main-description {
                 display: block;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <p class="instructions">Passa il mouse su un'immagine e scorri per sfogliare le immagini. Scorri a sinistra o a destra sui dispositivi mobili.</p>
+        <p class="instructions">Passa il mouse su un'immagine e scorri per sfogliare le immagini. Scorri a sinistra o a
+            destra sui dispositivi mobili.</p>
         <div id="prints-container" class="row"></div>
         <img id="single-image" src="" alt="" class="img-fluid">
         <div id="main-description" class="description"></div>
         <div class="progress">
-            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </div>
 
@@ -85,7 +103,7 @@
         const singleImage = document.getElementById('single-image');
         const mainDescription = document.getElementById('main-description');
         const progressBar = document.getElementById('progress-bar');
-        const numberOfPrints = 4; // Change this to the number of folders you have
+        const numberOfPrints = 5; // Change this to the number of folders you have
         const totalImagesPerPrint = 8; // Change this to the number of images in each folder
 
         const descriptions = {
@@ -108,8 +126,13 @@
             4: [
                 { name: '<b>orso piccolo</b>', dimensions: '<u>42x38x50mm</u>', price: '<span class="price">2.5€</span>' },
                 { name: '<b>orso grande</b>', dimensions: '<u>84x75x100mm</u>', price: '<span class="price">5€</span>' }
+            ],
+            4: [
+                { name: '<b>buddha piccolo</b>', dimensions: '<u>61x35x75</u>', price: '<span class="price">3€</span>' },
+                { name: '<b>buddha grande</b>', dimensions: '<u>122x71x150</u>', price: '<span class="price">6€</span>' }
             ]
         };
+
 
         for (let i = 1; i <= numberOfPrints; i++) {
             const printDiv = document.createElement('div');
@@ -242,4 +265,5 @@
         });
     </script>
 </body>
+
 </html>
