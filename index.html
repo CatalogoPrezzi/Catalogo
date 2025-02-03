@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,91 +9,75 @@
         body {
             font-family: Arial, sans-serif;
         }
-
         .print img {
-            max-width: 100%;
-            height: auto;
+            width: 200px; /* Set a fixed width */
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Ensure the image covers the area */
             transition: transform 0.3s;
         }
-
         .print img:hover {
             transform: scale(1.05);
         }
-
         #single-image {
             max-width: 100%;
             height: auto;
             margin-top: 20px;
         }
-
         .instructions {
             margin-bottom: 20px;
             font-size: 1.2em;
             color: #555;
         }
-
         .description {
             font-size: 1em;
             color: #333;
             margin-top: 10px;
         }
-
         .progress {
             height: 5px;
             margin-top: 10px;
         }
-
         .price {
             color: green;
         }
-
         .description-table {
             width: 100%;
             table-layout: fixed;
         }
-
         .description-table td {
             padding: 5px;
             text-align: center;
         }
-
         .description-content {
             display: flex;
             justify-content: space-between;
         }
-
         @media (max-width: 768px) {
             #single-image {
                 display: none;
             }
-
             .print .description {
                 display: none;
             }
         }
-
         @media (min-width: 769px) {
             .print .description {
                 display: none;
             }
-
             #main-description {
                 display: block;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <p class="instructions">Passa il mouse su un'immagine e scorri per sfogliare le immagini. Scorri a sinistra o a
-            destra sui dispositivi mobili.</p>
+        <p class="instructions">Passa il mouse su un'immagine e scorri per sfogliare le immagini. Scorri a sinistra o a destra sui dispositivi mobili.</p>
         <div id="prints-container" class="row"></div>
         <img id="single-image" src="" alt="" class="img-fluid">
         <div id="main-description" class="description"></div>
         <div class="progress">
-            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-                aria-valuemin="0" aria-valuemax="100"></div>
+            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </div>
 
@@ -127,12 +110,11 @@
                 { name: '<b>orso piccolo</b>', dimensions: '<u>42x38x50mm</u>', price: '<span class="price">2.5€</span>' },
                 { name: '<b>orso grande</b>', dimensions: '<u>84x75x100mm</u>', price: '<span class="price">5€</span>' }
             ],
-            4: [
+            5: [
                 { name: '<b>buddha piccolo</b>', dimensions: '<u>61x35x75</u>', price: '<span class="price">3€</span>' },
                 { name: '<b>buddha grande</b>', dimensions: '<u>122x71x150</u>', price: '<span class="price">6€</span>' }
             ]
         };
-
 
         for (let i = 1; i <= numberOfPrints; i++) {
             const printDiv = document.createElement('div');
@@ -211,6 +193,28 @@
             progressBar.setAttribute('aria-valuenow', progress);
         }
 
+        function handleWheelEvent(event, img) {
+            event.preventDefault(); // Prevent scrolling
+            const printNumber = img.dataset.print;
+            let currentIndex = parseInt(img.dataset.index, 10);
+
+            if (event.deltaY > 0) {
+                currentIndex = (currentIndex % totalImagesPerPrint) + 1;
+            } else {
+                currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
+            }
+
+            img.src = `imgs/${printNumber}/${currentIndex}.jpg`;
+            img.alt = `Print ${printNumber} - Image ${currentIndex}`;
+            img.dataset.index = currentIndex;
+
+            singleImage.src = img.src;
+            singleImage.alt = img.alt;
+
+            updateDescription(printNumber);
+            updateProgressBar(currentIndex, totalImagesPerPrint);
+        }
+
         printsContainer.addEventListener('mouseover', (event) => {
             if (event.target.tagName === 'IMG') {
                 singleImage.src = event.target.src;
@@ -222,27 +226,14 @@
 
         printsContainer.addEventListener('wheel', (event) => {
             if (event.target.tagName === 'IMG') {
-                event.preventDefault(); // Prevent scrolling
-                const img = event.target;
-                const printNumber = img.dataset.print;
-                let currentIndex = parseInt(img.dataset.index, 10);
-
-                if (event.deltaY > 0) {
-                    currentIndex = (currentIndex % totalImagesPerPrint) + 1;
-                } else {
-                    currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
-                }
-
-                img.src = `imgs/${printNumber}/${currentIndex}.jpg`;
-                img.alt = `Print ${printNumber} - Image ${currentIndex}`;
-                img.dataset.index = currentIndex;
-
-                singleImage.src = img.src;
-                singleImage.alt = img.alt;
-
-                updateDescription(printNumber);
-                updateProgressBar(currentIndex, totalImagesPerPrint);
+                handleWheelEvent(event, event.target);
             }
+        });
+
+        singleImage.addEventListener('wheel', (event) => {
+            const printNumber = singleImage.src.match(/imgs\/(\d+)\//)[1];
+            const img = document.querySelector(`img[data-print="${printNumber}"]`);
+            handleWheelEvent(event, img);
         });
 
         printsContainer.addEventListener('touchstart', (event) => {
@@ -265,5 +256,4 @@
         });
     </script>
 </body>
-
 </html>
