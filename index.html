@@ -9,16 +9,9 @@
         body {
             font-family: Arial, sans-serif;
         }
-        .print img {
-            transition: transform 0.3s;
-        }
-        .print img:hover {
-            transform: scale(1.05);
-        }
-        #single-image {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
+        .carousel-item img {
+            width: 100%; /* Set width to 100% */
+            height: auto; /* Maintain aspect ratio */
         }
         .instructions {
             margin-bottom: 20px;
@@ -49,25 +42,24 @@
             display: flex;
             justify-content: space-between;
         }
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .thumbnails img {
+            width: 100px;
+            height: auto;
+            margin: 0 5px;
+            cursor: pointer;
+        }
         @media (max-width: 768px) {
-            .print img {
-                width: 100%; /* Set width to 100% */
-                height: auto; /* Maintain aspect ratio */
-            }
-            #single-image {
-                display: none;
-            }
-            .print .description {
+            .carousel .description {
                 display: none;
             }
         }
         @media (min-width: 769px) {
-            .print img {
-                width: 200px; /* Set a fixed width */
-                height: 200px; /* Set a fixed height */
-                object-fit: cover; /* Ensure the image covers the area */
-            }
-            .print .description {
+            .carousel .description {
                 display: none;
             }
             #main-description {
@@ -78,18 +70,31 @@
 </head>
 <body>
     <div class="container">
-        <p class="instructions">Passa il mouse su un'immagine e scorri per sfogliare le immagini. Scorri a sinistra o a destra sui dispositivi mobili.</p>
-        <div id="prints-container" class="row"></div>
-        <img id="single-image" src="" alt="" class="img-fluid">
+        <p class="instructions">scorri a sinistra o destra per cambiare immagine, clicca le frecce per scorrere il catalogo.</p>
+        <div id="carouselExample" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" id="prints-container"></div>
+            <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
         <div id="main-description" class="description"></div>
         <div class="progress">
             <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <div class="thumbnails" id="thumbnails-container"></div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         const printsContainer = document.getElementById('prints-container');
-        const singleImage = document.getElementById('single-image');
+        const thumbnailsContainer = document.getElementById('thumbnails-container');
         const mainDescription = document.getElementById('main-description');
         const progressBar = document.getElementById('progress-bar');
         const numberOfPrints = 4; // Change this to the number of folders you have
@@ -119,50 +124,31 @@
         };
 
         for (let i = 1; i <= numberOfPrints; i++) {
-            const printDiv = document.createElement('div');
-            printDiv.className = 'col-md-4 print mb-4';
+            const carouselItem = document.createElement('div');
+            carouselItem.className = 'carousel-item' + (i === 1 ? ' active' : '');
 
             const img = document.createElement('img');
             img.src = `imgs/${i}/1.jpg`; // Display the first image initially
             img.alt = `Print ${i} - Image 1`;
             img.dataset.index = 1; // Store the current image index
             img.dataset.print = i; // Store the print number
-            printDiv.appendChild(img);
+            img.className = 'd-block w-100';
+            carouselItem.appendChild(img);
 
             const descriptionDiv = document.createElement('div');
             descriptionDiv.className = 'description';
             descriptionDiv.dataset.print = i;
-            printDiv.appendChild(descriptionDiv);
+            carouselItem.appendChild(descriptionDiv);
 
-            printsContainer.appendChild(printDiv);
+            printsContainer.appendChild(carouselItem);
 
-            // Update the description for the initial load
-            updateDescription(i);
-        }
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        function handleGesture(img) {
-            const printNumber = img.dataset.print;
-            let currentIndex = parseInt(img.dataset.index, 10);
-
-            if (touchEndX < touchStartX) {
-                currentIndex = (currentIndex % totalImagesPerPrint) + 1;
-            }
-            if (touchEndX > touchStartX) {
-                currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
-            }
-
-            img.src = `imgs/${printNumber}/${currentIndex}.jpg`;
-            img.alt = `Print ${printNumber} - Image ${currentIndex}`;
-            img.dataset.index = currentIndex;
-
-            singleImage.src = img.src;
-            singleImage.alt = img.alt;
-
-            updateDescription(printNumber);
-            updateProgressBar(currentIndex, totalImagesPerPrint);
+            // Create thumbnails
+            const thumbnail = document.createElement('img');
+            thumbnail.src = `imgs/${i}/1.jpg`;
+            thumbnail.alt = `Print ${i} - Thumbnail`;
+            thumbnail.dataset.target = '#carouselExample';
+            thumbnail.dataset.slideTo = i - 1;
+            thumbnailsContainer.appendChild(thumbnail);
         }
 
         function updateDescription(printNumber) {
@@ -178,14 +164,6 @@
             }
             descriptionHTML += '</tbody></table>';
 
-            const descriptionDivs = document.querySelectorAll('.description');
-            descriptionDivs.forEach(div => {
-                if (parseInt(div.dataset.print, 10) === printNumber) {
-                    div.innerHTML = descriptionHTML;
-                }
-            });
-
-            // Update the main description for PC view
             mainDescription.innerHTML = descriptionHTML;
         }
 
@@ -196,13 +174,15 @@
         }
 
         function handleWheelEvent(event, img) {
-            event.preventDefault(); // Prevent scrolling
+            if (event.deltaX !== 0) {
+                event.preventDefault(); // Prevent horizontal scrolling
+            }
             const printNumber = img.dataset.print;
             let currentIndex = parseInt(img.dataset.index, 10);
 
             if (event.deltaY > 0) {
                 currentIndex = (currentIndex % totalImagesPerPrint) + 1;
-            } else {
+            } else if (event.deltaY < 0) {
                 currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
             }
 
@@ -210,17 +190,14 @@
             img.alt = `Print ${printNumber} - Image ${currentIndex}`;
             img.dataset.index = currentIndex;
 
-            singleImage.src = img.src;
-            singleImage.alt = img.alt;
-
             updateDescription(printNumber);
             updateProgressBar(currentIndex, totalImagesPerPrint);
         }
 
-        printsContainer.addEventListener('mouseover', (event) => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        printsContainer.addEventListener('click', (event) => {
             if (event.target.tagName === 'IMG') {
-                singleImage.src = event.target.src;
-                singleImage.alt = event.target.alt;
                 const printNumber = event.target.dataset.print;
                 updateDescription(printNumber);
             }
@@ -230,12 +207,6 @@
             if (event.target.tagName === 'IMG') {
                 handleWheelEvent(event, event.target);
             }
-        });
-
-        singleImage.addEventListener('wheel', (event) => {
-            const printNumber = singleImage.src.match(/imgs\/(\d+)\//)[1];
-            const img = document.querySelector(`img[data-print="${printNumber}"]`);
-            handleWheelEvent(event, img);
         });
 
         printsContainer.addEventListener('touchstart', (event) => {
@@ -252,9 +223,65 @@
         });
 
         printsContainer.addEventListener('touchmove', (event) => {
-            if (event.target.tagName === 'IMG') {
-                event.preventDefault(); // Prevent horizontal scrolling
+            if (event.target.tagName === 'IMG' && isMobile) {
+                if (Math.abs(event.changedTouches[0].screenX - touchStartX) > Math.abs(event.changedTouches[0].screenY - touchStartX)) {
+                    event.preventDefault(); // Prevent horizontal scrolling
+                }
             }
+        });
+
+        $('#carouselExample').on('slid.bs.carousel', function (event) {
+            const activeItem = document.querySelector('.carousel-item.active img');
+            const printNumber = activeItem.dataset.print;
+            updateDescription(printNumber);
+        });
+
+        // Initialize the description for the first item
+        const firstItem = document.querySelector('.carousel-item.active img');
+        if (firstItem) {
+            updateDescription(firstItem.dataset.print);
+        }
+
+        // Handle swipe gestures for the carousel
+        const carousel = document.getElementById('carouselExample');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carousel.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipeGesture();
+        });
+
+        function handleSwipeGesture() {
+            const activeItem = document.querySelector('.carousel-item.active img');
+            const printNumber = activeItem.dataset.print;
+            let currentIndex = parseInt(activeItem.dataset.index, 10);
+
+            if (touchEndX < touchStartX) {
+                currentIndex = (currentIndex % totalImagesPerPrint) + 1;
+            } else if (touchEndX > touchStartX) {
+                currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
+            }
+
+            activeItem.src = `imgs/${printNumber}/${currentIndex}.jpg`;
+            activeItem.alt = `Print ${printNumber} - Image ${currentIndex}`;
+            activeItem.dataset.index = currentIndex;
+
+            updateDescription(printNumber);
+            updateProgressBar(currentIndex, totalImagesPerPrint);
+        }
+
+        // Handle arrow clicks to change prints
+        document.querySelector('.carousel-control-prev').addEventListener('click', () => {
+            $('#carouselExample').carousel('prev');
+        });
+
+        document.querySelector('.carousel-control-next').addEventListener('click', () => {
+            $('#carouselExample').carousel('next');
         });
     </script>
 </body>
