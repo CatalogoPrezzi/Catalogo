@@ -47,16 +47,31 @@
             justify-content: center;
             margin-top: 20px;
             overflow-x: auto;
+            white-space: nowrap;
         }
         .thumbnails img {
-            width: 100px;
-            height: auto;
+            display: inline-block;
+            width: calc(33.33% - 10px); /* Show 3 images at a time */
             margin: 0 5px;
             cursor: pointer;
+        }
+        .thumbnails img.partial {
+            width: calc(33.33% - 10px); /* Show 3 images at a time */
+            margin: 0 5px;
+            opacity: 0.5;
         }
         @media (max-width: 768px) {
             .carousel .description {
                 display: none;
+            }
+            .thumbnails {
+                overflow-x: scroll;
+                white-space: nowrap;
+            }
+            .thumbnails img {
+                display: inline-block;
+                width: calc(33.33% - 10px); /* Show 3 images at a time */
+                margin: 0 5px;
             }
         }
         @media (min-width: 769px) {
@@ -71,7 +86,8 @@
 </head>
 <body>
     <div class="container">
-        <p class="instructions">scorri a sinistra o destra per cambiare prodotto, scorri su e giù per cambiare immagine del prodotto.</p>
+        <p class="instructions">Scorri a sinistra o destra per cambiare immagine, clicca le frecce per scorrere il catalogo.<br>Scorri su\giù per cambiare immagine del prodotto<br></p>
+        
         <div id="carouselExample" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner" id="prints-container"></div>
             <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
