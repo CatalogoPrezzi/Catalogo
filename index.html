@@ -46,6 +46,7 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            overflow-x: auto;
         }
         .thumbnails img {
             width: 100px;
@@ -70,7 +71,7 @@
 </head>
 <body>
     <div class="container">
-        <p class="instructions">scorri a sinistra o destra per cambiare immagine, clicca le frecce per scorrere il catalogo.</p>
+        <p class="instructions">scorri a sinistra o destra per cambiare prodotto, scorri su e giù per cambiare immagine del prodotto.</p>
         <div id="carouselExample" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner" id="prints-container"></div>
             <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
@@ -111,11 +112,11 @@
             ],
             3: [
                 { name: '<b>flex cammina piccolo</b>', dimensions: '<u>50x40x5mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex cammina grande</b>', dimensions: '<u>100x80x10mm</u>', price: '<span class="price">4€</span>' },
-                { name: '<b>flex stiracchia piccolo</b>', dimensions: '<u>45x50x5mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex stiracchia grande</b>', dimensions: '<u>90x100x9mm</u>', price: '<span class="price">4€</span>' },
                 { name: '<b>flex steso piccolo</b>', dimensions: '<u>16x50x9mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex steso grande</b>', dimensions: '<u>32x100x18mm</u>', price: '<span class="price">4€</span>' }
+                { name: '<b>flex stiracchia piccolo</b>', dimensions: '<u>45x50x5mm</u>', price: '<span class="price">2€</span>' },
+                { name: '<b>flex cammina grande</b>', dimensions: '<u>100x80x10mm</u>', price: '<span class="price">4€</span>' },
+                { name: '<b>flex steso grande</b>', dimensions: '<u>32x100x18mm</u>', price: '<span class="price">4€</span>' },
+                { name: '<b>flex stiracchia grande</b>', dimensions: '<u>90x100x9mm</u>', price: '<span class="price">4€</span>' }
             ],
             4: [
                 { name: '<b>orso piccolo</b>', dimensions: '<u>42x38x50mm</u>', price: '<span class="price">2.5€</span>' },
@@ -216,19 +217,21 @@
         printsContainer.addEventListener('touchstart', (event) => {
             if (event.target.tagName === 'IMG') {
                 touchStartX = event.changedTouches[0].screenX;
+                touchStartY = event.changedTouches[0].screenY;
             }
         });
 
         printsContainer.addEventListener('touchend', (event) => {
             if (event.target.tagName === 'IMG') {
                 touchEndX = event.changedTouches[0].screenX;
-                handleGesture(event.target);
+                touchEndY = event.changedTouches[0].screenY;
+                handleSwipeGesture(event.target);
             }
         });
 
         printsContainer.addEventListener('touchmove', (event) => {
             if (event.target.tagName === 'IMG' && isMobile) {
-                if (Math.abs(event.changedTouches[0].screenX - touchStartX) > Math.abs(event.changedTouches[0].screenY - touchStartX)) {
+                if (Math.abs(event.changedTouches[0].screenX - touchStartX) > Math.abs(event.changedTouches[0].screenY - touchStartY)) {
                     event.preventDefault(); // Prevent horizontal scrolling
                 }
             }
@@ -250,13 +253,17 @@
         const carousel = document.getElementById('carouselExample');
         let touchStartX = 0;
         let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
 
         carousel.addEventListener('touchstart', (event) => {
             touchStartX = event.changedTouches[0].screenX;
+            touchStartY = event.changedTouches[0].screenY;
         });
 
         carousel.addEventListener('touchend', (event) => {
             touchEndX = event.changedTouches[0].screenX;
+            touchEndY = event.changedTouches[0].screenY;
             handleSwipeGesture();
         });
 
@@ -265,18 +272,20 @@
             const printNumber = activeItem.dataset.print;
             let currentIndex = parseInt(activeItem.dataset.index, 10);
 
-            if (touchEndX < touchStartX) {
-                currentIndex = (currentIndex % totalImagesPerPrint) + 1;
-            } else if (touchEndX > touchStartX) {
-                currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
+            if (Math.abs(touchEndY - touchStartY) > Math.abs(touchEndX - touchStartX)) {
+                if (touchEndY < touchStartY) {
+                    currentIndex = (currentIndex % totalImagesPerPrint) + 1;
+                } else if (touchEndY > touchStartY) {
+                    currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
+                }
+
+                activeItem.src = `imgs/${printNumber}/${currentIndex}.jpg`;
+                activeItem.alt = `Print ${printNumber} - Image ${currentIndex}`;
+                activeItem.dataset.index = currentIndex;
+
+                updateDescription(printNumber);
+                updateProgressBar(currentIndex, totalImagesPerPrint);
             }
-
-            activeItem.src = `imgs/${printNumber}/${currentIndex}.jpg`;
-            activeItem.alt = `Print ${printNumber} - Image ${currentIndex}`;
-            activeItem.dataset.index = currentIndex;
-
-            updateDescription(printNumber);
-            updateProgressBar(currentIndex, totalImagesPerPrint);
         }
 
         // Handle arrow clicks to change prints
