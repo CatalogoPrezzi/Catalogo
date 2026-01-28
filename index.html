@@ -3,315 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Catalogo Prodotti 3D</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        .carousel-item img {
-            width: 100%; /* Set width to 100% */
-            height: auto; /* Maintain aspect ratio */
-        }
-        .instructions {
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            color: #555;
-        }
-        .description {
-            font-size: 1em;
-            color: #333;
-            margin-top: 10px;
-        }
-        .progress {
-            height: 5px;
-            margin-top: 10px;
-        }
-        .price {
-            color: green;
-        }
-        .description-table {
-            width: 100%;
-            table-layout: fixed;
-        }
-        .description-table td {
-            padding: 5px;
+
+        header {
             text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
         }
-        .description-content {
-            display: flex;
-            justify-content: space-between;
+
+        header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
-        .thumbnails {
+
+        header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .filters {
             display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-top: 20px;
-            overflow-x: auto;
-            white-space: nowrap;
         }
-        .thumbnails img {
-            display: inline-block;
-            width: calc(33.33% - 10px); /* Show 3 images at a time */
-            margin: 0 5px;
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
-        .thumbnails img.partial {
-            width: calc(33.33% - 10px); /* Show 3 images at a time */
-            margin: 0 5px;
-            opacity: 0.5;
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slider-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .slider-image.active {
+            display: block;
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 12px;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.2s ease;
+            z-index: 9;
+        }
+
+        .slider-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .slider-btn.prev {
+            left: 10px;
+        }
+
+        .slider-btn.next {
+            right: 10px;
+        }
+
+        /* Fullscreen Modal */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .fullscreen-container {
+            position: relative;
+            width: 90vw;
+            height: 90vh;
+            max-width: 1200px;
+            max-height: 800px;
+        }
+
+        .fullscreen-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .fullscreen-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: white;
+            color: black;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .fullscreen-close:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .fullscreen-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            transition: all 0.2s ease;
+            z-index: 1001;
+        }
+
+        .fullscreen-nav:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .fullscreen-nav.prev {
+            left: 20px;
+        }
+
+        .fullscreen-nav.next {
+            right: 20px;
+        }
+
+        .fullscreen-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .product-category {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-variants {
+            margin-bottom: 15px;
+        }
+
+        .variant-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .variant-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .variant-pill {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .variant-pill:hover {
+            background: #e8e8e8;
+        }
+
+        .variant-pill.selected {
+            background: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+
+        .colors-display {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+
+        .price-section {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .price-display {
+            font-size: 1.8em;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .price-note {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            background: white;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
         @media (max-width: 768px) {
-            .carousel .description {
-                display: none;
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
             }
-            .thumbnails {
-                overflow-x: scroll;
-                white-space: nowrap;
+
+            header h1 {
+                font-size: 1.8em;
             }
-            .thumbnails img {
-                display: inline-block;
-                width: calc(33.33% - 10px); /* Show 3 images at a time */
-                margin: 0 5px;
-            }
-        }
-        @media (min-width: 769px) {
-            .carousel .description {
-                display: none;
-            }
-            #main-description {
-                display: block;
+
+            .product-image {
+                height: 200px;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <p style="font-size: 2em; color: #e74c3c; margin-top: 15px; font-weight: 500;">✨ il colore dei prodotti può essere scelto su richiesta ✨</p>
+    </header>
+
     <div class="container">
-        <p class="instructions">Scorri a sinistra o destra per cambiare immagine, clicca le frecce per scorrere il catalogo.<br>Scorri su per cambiare immagine del prodotto<br></p>
-        
-        <div id="carouselExample" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" id="prints-container"></div>
-            <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-        <div id="main-description" class="description"></div>
-        <div class="progress">
-            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <div class="thumbnails" id="thumbnails-container"></div>
+        <div class="filters" id="filtersContainer"></div>
+        <div class="products-grid" id="productsGrid"></div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        const printsContainer = document.getElementById('prints-container');
-        const thumbnailsContainer = document.getElementById('thumbnails-container');
-        const mainDescription = document.getElementById('main-description');
-        const progressBar = document.getElementById('progress-bar');
-        const numberOfPrints = 5; // Change this to the number of folders you have
-        const totalImagesPerPrint = 8; // Change this to the number of images in each folder
+        // Dati dei prodotti
+        const products = [
+  {
+    "id": 1,
+    "name": "Portaoggetti",
+    "category": "Portaoggetti",
+    "sizes": [
+      { "size": "10cm", "price": 5 },
+      { "size": "18cm", "price": 10 }
+    ],
+    "images": ["imgs/portaoggetti/portaoggetti.jpg", "imgs/portaoggetti/portaoggetti2.jpg"],
+    "colors": ["Rosso", "Bianco"]
+  },
+  {
+    "id": 2,
+    "name": "Scatola con Rosa",
+    "category": "Scatole",
+    "sizes": [
+      { "size": "6cm", "price": 5 },
+      { "size": "10cm", "price": 10 }
+    ],
+    "images": ["imgs/scatola_con_rosa/scatola_con_rosa.jpg", "imgs/scatola_con_rosa/scatola_con_rosa2.jpg"],
+    "colors": ["Rosso", "Nero"]
+  },
+  {
+    "id": 3,
+    "name": "Cuore Portachiavi",
+    "category": "Accessori",
+    "sizes": [
+      { "size": "Unico", "price": 1 }
+    ],
+    "images": ["imgs/cuore_portachiavi/cuore_portachiavi.jpg", "imgs/cuore_portachiavi/cuore_portachiavi2.jpg"],
+    "colors": ["Rosso"]
+  },
+  {
+    "id": 4,
+    "name": "Porta Telefono",
+    "category": "Accessori",
+    "sizes": [
+      { "size": "Unico", "price": 4 }
+    ],
+    "images": ["imgs/stand_telefono/stand_telefono.jpg", "imgs/stand_telefono/stand_telefono2.jpg"],
+    "colors": ["Giallo-Nero", "Nero"]
+  },
+  {
+    "id": 5,
+    "name": "Cuore San Valentino con Luce",
+    "category": "Decorazioni",
+    "sizes": [
+      { "size": "Unico", "price": 5 }
+    ],
+    "images": ["imgs/cuore_valentino/cuore_valentino.jpg", "imgs/cuore_valentino/cuore_valentino2.jpg"],
+    "colors": ["Rosso"]
+  }
+];
 
-        const descriptions = {
-            1: [
-                { name: '<b>voronoi piccolo</b>', dimensions: '<u>33x35x50mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>voronoi grande</b>', dimensions: '<u>67x70x100mm</u>', price: '<span class="price">4€</span>' }
-            ],
-            2: [
-                { name: '<b>elefante piccolo</b>', dimensions: '<u>50x52x43mm</u>', price: '<span class="price">2.5€</span>' },
-                { name: '<b>elefante grande</b>', dimensions: '<u>106x111x92mm</u>', price: '<span class="price">5€</span>' }
-            ],
-            3: [
-                { name: '<b>flex cammina piccolo</b>', dimensions: '<u>50x40x5mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex steso piccolo</b>', dimensions: '<u>16x50x9mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex stiracchia piccolo</b>', dimensions: '<u>45x50x5mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>flex cammina grande</b>', dimensions: '<u>100x80x10mm</u>', price: '<span class="price">4€</span>' },
-                { name: '<b>flex steso grande</b>', dimensions: '<u>32x100x18mm</u>', price: '<span class="price">4€</span>' },
-                { name: '<b>flex stiracchia grande</b>', dimensions: '<u>90x100x9mm</u>', price: '<span class="price">4€</span>' }
-            ],
-            4: [
-                { name: '<b>orso piccolo</b>', dimensions: '<u>42x38x50mm</u>', price: '<span class="price">2.5€</span>' },
-                { name: '<b>orso grande</b>', dimensions: '<u>84x75x100mm</u>', price: '<span class="price">5€</span>' }
-            ],
-            5: [
-                { name: '<b>maltese piccolo</b>', dimensions: '<u>50x31x47mm</u>', price: '<span class="price">2€</span>' },
-                { name: '<b>maltese grande</b>', dimensions: '<u>100x62x93mm</u>', price: '<span class="price">4€</span>' }
-            ]
-        };
+        let currentFilter = 'all';
 
-        for (let i = 1; i <= numberOfPrints; i++) {
-            const carouselItem = document.createElement('div');
-            carouselItem.className = 'carousel-item' + (i === 1 ? ' active' : '');
-
-            const img = document.createElement('img');
-            img.src = `imgs/${i}/1.jpg`; // Display the first image initially
-            img.alt = `Print ${i} - Image 1`;
-            img.dataset.index = 1; // Store the current image index
-            img.dataset.print = i; // Store the print number
-            img.className = 'd-block w-100';
-            carouselItem.appendChild(img);
-
-            const descriptionDiv = document.createElement('div');
-            descriptionDiv.className = 'description';
-            descriptionDiv.dataset.print = i;
-            carouselItem.appendChild(descriptionDiv);
-
-            printsContainer.appendChild(carouselItem);
-
-            // Create thumbnails
-            const thumbnail = document.createElement('img');
-            thumbnail.src = `imgs/${i}/1.jpg`;
-            thumbnail.alt = `Print ${i} - Thumbnail`;
-            thumbnail.dataset.target = '#carouselExample';
-            thumbnail.dataset.slideTo = i - 1;
-            thumbnailsContainer.appendChild(thumbnail);
+        // Inizializza l'app
+        function loadProducts() {
+            renderProducts(products);
+            createFilters();
         }
 
-        function updateDescription(printNumber) {
-            const desc = descriptions[printNumber];
-            const isMobile = window.innerWidth <= 768;
-            let descriptionHTML = '<table class="description-table"><tbody>';
-            for (let i = 0; i < desc.length; i += 3) {
-                descriptionHTML += '<tr>';
-                descriptionHTML += `<td><div class="description-content">${desc[i] ? `${desc[i].name} ${isMobile ? '' : desc[i].dimensions} ${desc[i].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 1] ? `${desc[i + 1].name} ${isMobile ? '' : desc[i + 1].dimensions} ${desc[i + 1].price}` : ''}</div></td>`;
-                descriptionHTML += `<td><div class="description-content">${desc[i + 2] ? `${desc[i + 2].name} ${isMobile ? '' : desc[i + 2].dimensions} ${desc[i + 2].price}` : ''}</div></td>`;
-                descriptionHTML += '</tr>';
-            }
-            descriptionHTML += '</tbody></table>';
-
-            mainDescription.innerHTML = descriptionHTML;
+        // Crea i bottoni filtro
+        function createFilters() {
+            const categories = ['all', ...new Set(products.map(p => p.category))];
+            const filtersContainer = document.getElementById('filtersContainer');
+            
+            categories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.className = `filter-btn ${category === 'all' ? 'active' : ''}`;
+                btn.textContent = category === 'all' ? 'Tutti' : category;
+                btn.onclick = () => filterProducts(category, btn);
+                filtersContainer.appendChild(btn);
+            });
         }
 
-        function updateProgressBar(currentIndex, totalImages) {
-            const progress = (currentIndex / totalImages) * 100;
-            progressBar.style.width = `${progress}%`;
-            progressBar.setAttribute('aria-valuenow', progress);
+        // Filtra i prodotti
+        function filterProducts(category, btn) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+            renderProducts(filtered);
         }
 
-        function handleWheelEvent(event, img) {
-            if (event.deltaX !== 0) {
-                event.preventDefault(); // Prevent horizontal scrolling
-            }
-            const printNumber = img.dataset.print;
-            let currentIndex = parseInt(img.dataset.index, 10);
+        // Renderizza i prodotti
+        function renderProducts(productsToShow) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
 
-            if (event.deltaY > 0) {
-                currentIndex = (currentIndex % totalImagesPerPrint) + 1;
-            } else if (event.deltaY < 0) {
-                currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">Nessun prodotto trovato</p>';
+                return;
             }
 
-            img.src = `imgs/${printNumber}/${currentIndex}.jpg`;
-            img.alt = `Print ${printNumber} - Image ${currentIndex}`;
-            img.dataset.index = currentIndex;
-
-            updateDescription(printNumber);
-            updateProgressBar(currentIndex, totalImagesPerPrint);
-        }
-
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        printsContainer.addEventListener('click', (event) => {
-            if (event.target.tagName === 'IMG') {
-                const printNumber = event.target.dataset.print;
-                updateDescription(printNumber);
-            }
-        });
-
-        printsContainer.addEventListener('wheel', (event) => {
-            if (event.target.tagName === 'IMG') {
-                handleWheelEvent(event, event.target);
-            }
-        });
-
-        printsContainer.addEventListener('touchstart', (event) => {
-            if (event.target.tagName === 'IMG') {
-                touchStartX = event.changedTouches[0].screenX;
-                touchStartY = event.changedTouches[0].screenY;
-            }
-        });
-
-        printsContainer.addEventListener('touchend', (event) => {
-            if (event.target.tagName === 'IMG') {
-                touchEndX = event.changedTouches[0].screenX;
-                touchEndY = event.changedTouches[0].screenY;
-                handleSwipeGesture(event.target);
-            }
-        });
-
-        printsContainer.addEventListener('touchmove', (event) => {
-            if (event.target.tagName === 'IMG' && isMobile) {
-                if (Math.abs(event.changedTouches[0].screenX - touchStartX) > Math.abs(event.changedTouches[0].screenY - touchStartY)) {
-                    event.preventDefault(); // Prevent horizontal scrolling
+            productsToShow.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                // Inizializza lo slider
+                if (!product.currentImageIndex) {
+                    product.currentImageIndex = 0;
                 }
-            }
-        });
+                
+                // Inizializza la misura selezionata
+                if (!product.selectedSize) {
+                    product.selectedSize = 0;
+                }
+                
+                const selectedPrice = product.sizes[product.selectedSize].price;
+                const priceDisplay = selectedPrice !== null ? `${selectedPrice}€` : 'Contatta per info';
+                
+                // Crea i dot colore
+                let colorsDots = '';
+                if (product.colors.length > 0) {
+                    const colorMap = {
+                        'Rosso': '#e74c3c',
+                        'Bianco': '#ecf0f1',
+                        'Nero': '#2c3e50',
+                        'Blu': '#3498db',
+                        'Giallo': '#f1c40f',
+                        'Verde': '#2ecc71',
+                        'Grigio': '#95a5a6',
+                        'Rosa': '#e91e63',
+                        'Azzurro': '#1abc9c',
+                        'Arancione': '#e67e22'
+                    };
 
-        $('#carouselExample').on('slid.bs.carousel', function (event) {
-            const activeItem = document.querySelector('.carousel-item.active img');
-            const printNumber = activeItem.dataset.print;
-            updateDescription(printNumber);
-        });
-
-        // Initialize the description for the first item
-        const firstItem = document.querySelector('.carousel-item.active img');
-        if (firstItem) {
-            updateDescription(firstItem.dataset.print);
-        }
-
-        // Handle swipe gestures for the carousel
-        const carousel = document.getElementById('carouselExample');
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let touchStartY = 0;
-        let touchEndY = 0;
-
-        carousel.addEventListener('touchstart', (event) => {
-            touchStartX = event.changedTouches[0].screenX;
-            touchStartY = event.changedTouches[0].screenY;
-        });
-
-        carousel.addEventListener('touchend', (event) => {
-            touchEndX = event.changedTouches[0].screenX;
-            touchEndY = event.changedTouches[0].screenY;
-            handleSwipeGesture();
-        });
-
-        function handleSwipeGesture() {
-            const activeItem = document.querySelector('.carousel-item.active img');
-            const printNumber = activeItem.dataset.print;
-            let currentIndex = parseInt(activeItem.dataset.index, 10);
-
-            if (Math.abs(touchEndY - touchStartY) > Math.abs(touchEndX - touchStartX)) {
-                if (touchEndY < touchStartY) {
-                    currentIndex = (currentIndex % totalImagesPerPrint) + 1;
-                } else if (touchEndY > touchStartY) {
-                    currentIndex = (currentIndex - 2 + totalImagesPerPrint) % totalImagesPerPrint + 1;
+                    product.colors.forEach(color => {
+                        const baseColor = color.split('-')[0];
+                        colorsDots += `<div class="color-dot" style="background-color: ${colorMap[baseColor] || '#ccc'};" title="${color}"></div>`;
+                    });
                 }
 
-                activeItem.src = `imgs/${printNumber}/${currentIndex}.jpg`;
-                activeItem.alt = `Print ${printNumber} - Image ${currentIndex}`;
-                activeItem.dataset.index = currentIndex;
+                // Crea lo slider HTML
+                let sliderHTML = `<div class="image-slider">`;
+                product.images.forEach((img, idx) => {
+                    sliderHTML += `<img src="${img}" alt="${product.name}" class="slider-image ${idx === product.currentImageIndex ? 'active' : ''}" onerror="this.style.display='none';">`;
+                });
+                
+                // Aggiungi controlli se ci sono più immagini
+                if (product.images.length > 1) {
+                    sliderHTML += `<button class="slider-btn prev" data-product-id="${product.id}">‹</button>`;
+                    sliderHTML += `<button class="slider-btn next" data-product-id="${product.id}">›</button>`;
+                    sliderHTML += `<div class="slider-controls">`;
+                    product.images.forEach((_, idx) => {
+                        sliderHTML += `<div class="slider-dot ${idx === product.currentImageIndex ? 'active' : ''}" data-image-idx="${idx}" data-product-id="${product.id}"></div>`;
+                    });
+                    sliderHTML += `</div>`;
+                }
+                sliderHTML += `</div>`;
 
-                updateDescription(printNumber);
-                updateProgressBar(currentIndex, totalImagesPerPrint);
-            }
+                card.innerHTML = `
+                    <div class="product-image">
+                        ${sliderHTML}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-category">${product.category}</div>
+                        
+                        <div class="product-variants">
+                            ${product.sizes.length > 0 ? `
+                                <div class="variant-label">Misure disponibili:</div>
+                                <div class="variant-pills" data-product-id="${product.id}">
+                                    ${product.sizes.map((s, idx) => `<span class="variant-pill ${idx === product.selectedSize ? 'selected' : ''}" data-size-idx="${idx}" data-product-id="${product.id}">${s.size}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            ${product.colors.length > 0 ? `
+                                <div class="variant-label">Colori:</div>
+                                <div class="colors-display">
+                                    ${colorsDots}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="price-section">
+                            <div class="price-display" data-product-id="${product.id}">${priceDisplay}</div>
+                            ${product.sizes.length > 1 ? '<div class="price-note">Scegli una misura</div>' : ''}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+                
+                // Aggiungi event listener ai bottoni misura
+                card.querySelectorAll('.variant-pill').forEach(pill => {
+                    pill.addEventListener('click', (e) => {
+                        const sizeIdx = parseInt(e.target.dataset.sizeIdx);
+                        const productId = parseInt(e.target.dataset.productId);
+                        const prod = products.find(p => p.id === productId);
+                        
+                        prod.selectedSize = sizeIdx;
+                        
+                        // Aggiorna visualizzazione pillole
+                        card.querySelectorAll('.variant-pill').forEach(p => p.classList.remove('selected'));
+                        e.target.classList.add('selected');
+                        
+                        // Aggiorna prezzo
+                        const newPrice = prod.sizes[sizeIdx].price;
+                        const priceText = newPrice !== null ? `${newPrice}€` : 'Contatta per info';
+                        card.querySelector(`.price-display[data-product-id="${productId}"]`).textContent = priceText;
+                    });
+                });
+                
+                // Aggiungi event listener allo slider
+                const updateSlider = (prodId, newIdx) => {
+                    const prod = products.find(p => p.id === prodId);
+                    prod.currentImageIndex = (newIdx + prod.images.length) % prod.images.length;
+                    
+                    // Aggiorna immagini
+                    card.querySelectorAll('.slider-image').forEach((img, idx) => {
+                        img.classList.toggle('active', idx === prod.currentImageIndex);
+                    });
+                    
+                    // Aggiorna dot
+                    card.querySelectorAll('.slider-dot').forEach((dot, idx) => {
+                        dot.classList.toggle('active', idx === prod.currentImageIndex);
+                    });
+                };
+                
+                // Click sui dot
+                card.querySelectorAll('.slider-dot').forEach(dot => {
+                    dot.addEventListener('click', (e) => {
+                        const prodId = parseInt(e.target.dataset.productId);
+                        const imgIdx = parseInt(e.target.dataset.imageIdx);
+                        updateSlider(prodId, imgIdx);
+                    });
+                });
+                
+                // Click sui bottoni
+                card.querySelectorAll('.slider-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const prodId = parseInt(e.target.dataset.productId);
+                        const prod = products.find(p => p.id === prodId);
+                        const direction = e.target.classList.contains('prev') ? -1 : 1;
+                        updateSlider(prodId, prod.currentImageIndex + direction);
+                    });
+                });
+            });
         }
 
-        // Handle arrow clicks to change prints
-        document.querySelector('.carousel-control-prev').addEventListener('click', () => {
-            $('#carouselExample').carousel('prev');
-        });
-
-        document.querySelector('.carousel-control-next').addEventListener('click', () => {
-            $('#carouselExample').carousel('next');
-        });
+        // Carica tutto al load
+        window.addEventListener('DOMContentLoaded', loadProducts);
     </script>
 </body>
 </html>

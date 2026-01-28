@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "name": "Portaoggetti",
+    "category": "Portaoggetti",
+    "sizes": [
+      { "size": "10cm", "price": 5 },
+      { "size": "18cm", "price": 10 }
+    ],
+    "image": "images/portaoggetti.jpg",
+    "colors": ["Rosso", "Bianco"]
+  },
+  {
+    "id": 2,
+    "name": "Scatola con Rosa",
+    "category": "Scatole",
+    "sizes": [
+      { "size": "6cm", "price": 5 },
+      { "size": "10cm", "price": 10 }
+    ],
+    "image": "images/scatola_rosa.jpg",
+    "colors": ["Rosso", "Nero"]
+  },
+  {
+    "id": 3,
+    "name": "Cuore Portachiavi",
+    "category": "Accessori",
+    "sizes": [
+      { "size": "Unico", "price": 1 }
+    ],
+    "image": "images/cuore_portachiavi.jpg",
+    "colors": ["Rosso"]
+  },
+  {
+    "id": 4,
+    "name": "Porta Telefono",
+    "category": "Accessori",
+    "sizes": [
+      { "size": "Unico", "price": 4 }
+    ],
+    "image": "images/porta_telefono.jpg",
+    "colors": ["Giallo-Nero", "Giallo-Blu"]
+  },
+  {
+    "id": 5,
+    "name": "Cuore San Valentino con Luce",
+    "category": "Decorazioni",
+    "sizes": [
+      { "size": "Unico", "price": 5 }
+    ],
+    "image": "images/cuore_valentino.jpg",
+    "colors": ["Rosso"]
+  },
+  {
+    "id": 6,
+    "name": "Filamenti personalizzati",
+    "category": "Materiali",
+    "sizes": [
+      { "size": "Bobina", "price": null }
+    ],
+    "image": "images/filamenti.jpg",
+    "colors": ["Grigio", "Verde", "Blu", "Rosa", "Azzurro", "Arancione", "Bianco", "Nero"]
+  }
+]
