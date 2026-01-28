@@ -395,7 +395,7 @@
 </head>
 <body>
     <header>
-        <p style="font-size: 2em; color: #e74c3c; margin-top: 15px; font-weight: 500;">✨ il colore dei prodotti può essere scelto su richiesta ✨</p>
+        <p style="font-size: 2em; color: #e74c3c; margin-top: 15px; font-weight: 500;">✨ il colore dei prodotti può essere scelto ✨</p>
     </header>
 
     <div class="container">
@@ -403,6 +403,18 @@
         <div class="products-grid" id="productsGrid"></div>
     </div>
 
+    <!-- Fullscreen Modal -->
+    <div id="fullscreenModal" class="fullscreen-modal">
+        <div class="fullscreen-container">
+            <button class="fullscreen-close" onclick="closeFullscreen()">×</button>
+            <img id="fullscreenImage" class="fullscreen-image" src="" alt="Fullscreen">
+            <button class="fullscreen-nav prev" onclick="fullscreenPrev()">‹</button>
+            <button class="fullscreen-nav next" onclick="fullscreenNext()">›</button>
+            <div class="fullscreen-counter">
+                <span id="currentImageNum">1</span> / <span id="totalImageNum">1</span>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Dati dei prodotti
@@ -652,6 +664,91 @@
 
         // Carica tutto al load
         window.addEventListener('DOMContentLoaded', loadProducts);
+
+        // Fullscreen Modal Functions
+        let currentFullscreenProduct = null;
+
+        function openFullscreen(prodId, imageIdx) {
+            currentFullscreenProduct = {
+                id: prodId,
+                currentIdx: imageIdx
+            };
+            const product = products.find(p => p.id === prodId);
+            updateFullscreenImage(product);
+            document.getElementById('fullscreenModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFullscreen() {
+            document.getElementById('fullscreenModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentFullscreenProduct = null;
+        }
+
+        function updateFullscreenImage(product) {
+            const img = document.getElementById('fullscreenImage');
+            const currentIdx = currentFullscreenProduct.currentIdx;
+            img.src = product.images[currentIdx];
+            document.getElementById('currentImageNum').textContent = currentIdx + 1;
+            document.getElementById('totalImageNum').textContent = product.images.length;
+        }
+
+        function fullscreenPrev() {
+            if (!currentFullscreenProduct) return;
+            const product = products.find(p => p.id === currentFullscreenProduct.id);
+            currentFullscreenProduct.currentIdx = (currentFullscreenProduct.currentIdx - 1 + product.images.length) % product.images.length;
+            updateFullscreenImage(product);
+        }
+
+        function fullscreenNext() {
+            if (!currentFullscreenProduct) return;
+            const product = products.find(p => p.id === currentFullscreenProduct.id);
+            currentFullscreenProduct.currentIdx = (currentFullscreenProduct.currentIdx + 1) % product.images.length;
+            updateFullscreenImage(product);
+        }
+
+        // Aggiungi i click listener alle immagini dello slider
+        setTimeout(() => {
+            document.querySelectorAll('.slider-image').forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', (e) => {
+                    const card = e.target.closest('.product-card');
+                    const sliderImages = card.querySelectorAll('.slider-image');
+                    let currentIdx = 0;
+                    sliderImages.forEach((slider, idx) => {
+                        if (slider.classList.contains('active')) {
+                            currentIdx = idx;
+                        }
+                    });
+                    // Trova il product ID
+                    const pills = card.querySelectorAll('.variant-pill');
+                    if (pills.length > 0) {
+                        const prodId = parseInt(pills[0].dataset.productId);
+                        openFullscreen(prodId, currentIdx);
+                    }
+                });
+            });
+        }, 100);
+
+        // Chiudi con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            }
+            if (e.key === 'ArrowLeft') {
+                fullscreenPrev();
+            }
+            if (e.key === 'ArrowRight') {
+                fullscreenNext();
+            }
+        });
+
+        // Chiudi cliccando fuori dall'immagine
+        document.getElementById('fullscreenModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('fullscreenModal')) {
+                closeFullscreen();
+            }
+        });
     </script>
 </body>
 </html>
