@@ -85,7 +85,7 @@
   {
     "id": 5,
     "name": "Cuore San Valentino con Luce",
-    "tags": ["LED"],
+    "category": "LED",
     "sizes": [
       {
         "size": "Unico",
@@ -103,7 +103,7 @@
   {
     "id": 6,
     "name": "Elefantino",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
@@ -123,7 +123,7 @@
   {
     "id": 7,
     "name": "Orso",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
@@ -160,7 +160,7 @@
   {
     "id": 9,
     "name": "Fantasmino che Legge con LED",
-    "tags": ["LED"],
+    "category": "LED",
     "sizes": [
       {
         "size": "Unico",
@@ -177,7 +177,7 @@
   {
     "id": 10,
     "name": "Gatto Voronoi LED",
-    "tags": ["LED"],
+    "category": "LED",
     "sizes": [
       {
         "size": "Unico",
@@ -218,7 +218,7 @@
   {
     "id": 12,
     "name": "Ippopotamo",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
@@ -236,7 +236,7 @@
   {
     "id": 13,
     "name": "Pesce",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
@@ -256,6 +256,7 @@
     "id": 14,
     "name": "Busto Batman",
     "category": "Decorazioni",
+    "tags": ["Supereroi"],
     "sizes": [
       {
         "size": "Unico",
@@ -274,7 +275,7 @@
   {
     "id": 15,
     "name": "Cane",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
@@ -293,7 +294,7 @@
   {
     "id": 16,
     "name": "Gatto",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
@@ -332,7 +333,7 @@
   {
     "id": 18,
     "name": "Tartaruga",
-    "category": "Animali",
+    "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
