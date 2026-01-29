@@ -442,11 +442,15 @@
         // Crea i bottoni filtro
         function createFilters() {
             const categories = ['all', ...new Set(products.map(p => p.category))];
-            // Aggiungi LED se ci sono prodotti con tag LED
-            const hasLED = products.some(p => p.tags && p.tags.includes('LED'));
-            if (hasLED) {
-                categories.push('LED');
-            }
+            // Aggiungi tag speciali
+            const allTags = new Set();
+            products.forEach(p => {
+                if (p.tags) {
+                    p.tags.forEach(tag => allTags.add(tag));
+                }
+            });
+            allTags.forEach(tag => categories.push(tag));
+            
             const filtersContainer = document.getElementById('filtersContainer');
             
             categories.forEach(category => {
@@ -467,10 +471,11 @@
             let filtered;
             if (category === 'all') {
                 filtered = products;
-            } else if (category === 'LED') {
-                filtered = products.filter(p => p.tags && p.tags.includes('LED'));
             } else {
-                filtered = products.filter(p => p.category === category);
+                // Cerca sia nella category che nei tags
+                filtered = products.filter(p => 
+                    p.category === category || (p.tags && p.tags.includes(category))
+                );
             }
             renderProducts(filtered);
         }
