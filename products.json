@@ -104,7 +104,7 @@
   {
     "id": 6,
     "name": "Elefantino",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
@@ -124,7 +124,7 @@
   {
     "id": 7,
     "name": "Orso",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
@@ -221,7 +221,7 @@
   {
     "id": 12,
     "name": "Ippopotamo",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
@@ -239,7 +239,7 @@
   {
     "id": 13,
     "name": "Pesce",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
@@ -259,7 +259,6 @@
     "id": 14,
     "name": "Busto Batman",
     "category": "Decorazioni",
-    "tags": ["Supereroi"],
     "sizes": [
       {
         "size": "Unico",
@@ -278,7 +277,7 @@
   {
     "id": 15,
     "name": "Cane",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
@@ -297,7 +296,7 @@
   {
     "id": 16,
     "name": "Gatto",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
@@ -336,7 +335,7 @@
   {
     "id": 18,
     "name": "Tartaruga",
-    "category": "Decorazioni",
+    "category": "Animali",
     "sizes": [
       {
         "size": "Unico",
