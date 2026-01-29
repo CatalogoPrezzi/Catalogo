@@ -618,6 +618,21 @@
                         updateSlider(prodId, prod.currentImageIndex + direction);
                     });
                 });
+                
+                // Click sulle immagini per fullscreen
+                card.querySelectorAll('.slider-image').forEach(img => {
+                    img.style.cursor = 'pointer';
+                    img.addEventListener('click', (e) => {
+                        const sliderImages = card.querySelectorAll('.slider-image');
+                        let currentIdx = 0;
+                        sliderImages.forEach((slider, idx) => {
+                            if (slider.classList.contains('active')) {
+                                currentIdx = idx;
+                            }
+                        });
+                        openFullscreen(product.id, currentIdx);
+                    });
+                });
             });
         }
 
@@ -665,29 +680,6 @@
             currentFullscreenProduct.currentIdx = (currentFullscreenProduct.currentIdx + 1) % product.images.length;
             updateFullscreenImage(product);
         }
-
-        // Aggiungi i click listener alle immagini dello slider
-        setTimeout(() => {
-            document.querySelectorAll('.slider-image').forEach(img => {
-                img.style.cursor = 'pointer';
-                img.addEventListener('click', (e) => {
-                    const card = e.target.closest('.product-card');
-                    const sliderImages = card.querySelectorAll('.slider-image');
-                    let currentIdx = 0;
-                    sliderImages.forEach((slider, idx) => {
-                        if (slider.classList.contains('active')) {
-                            currentIdx = idx;
-                        }
-                    });
-                    // Trova il product ID
-                    const pills = card.querySelectorAll('.variant-pill');
-                    if (pills.length > 0) {
-                        const prodId = parseInt(pills[0].dataset.productId);
-                        openFullscreen(prodId, currentIdx);
-                    }
-                });
-            });
-        }, 100);
 
         // Chiudi con ESC
         document.addEventListener('keydown', (e) => {

@@ -4,101 +4,197 @@
     "name": "Portaoggetti",
     "category": "Portaoggetti",
     "sizes": [
-      { "size": "10cm", "price": 5 },
-      { "size": "18cm", "price": 10 }
+      {
+        "size": "10cm",
+        "price": 5
+      },
+      {
+        "size": "18cm",
+        "price": 10
+      }
     ],
-    "images": ["imgs/portaoggetti/portaoggetti.jpg", "imgs/portaoggetti/portaoggetti2.jpg"],
-    "colors": ["Rosso", "Bianco"]
+    "images": [
+      "imgs/portaoggetti/portaoggetti.jpg",
+      "imgs/portaoggetti/portaoggetti2.jpg"
+    ],
+    "colors": [
+      "Rosso",
+      "Bianco"
+    ]
   },
   {
     "id": 2,
     "name": "Scatola con Rosa",
     "category": "Scatole",
     "sizes": [
-      { "size": "6cm", "price": 5 },
-      { "size": "10cm", "price": 10 }
+      {
+        "size": "6cm",
+        "price": 5
+      },
+      {
+        "size": "10cm",
+        "price": 10
+      }
     ],
-    "images": ["imgs/scatola_con_rosa/scatola_con_rosa.jpg", "imgs/scatola_con_rosa/scatola_con_rosa2.jpg"],
-    "colors": ["Rosso", "Nero"]
+    "images": [
+      "imgs/scatola_con_rosa/scatola_con_rosa.jpg",
+      "imgs/scatola_con_rosa/scatola_con_rosa2.jpg"
+    ],
+    "colors": [
+      "Rosso",
+      "Nero"
+    ]
   },
   {
     "id": 3,
     "name": "Cuore Portachiavi",
     "category": "Accessori",
     "sizes": [
-      { "size": "Unico", "price": 1 }
+      {
+        "size": "Unico",
+        "price": 1
+      }
     ],
-    "images": ["imgs/cuore_portachiavi/cuore_portachiavi.jpg", "imgs/cuore_portachiavi/cuore_portachiavi2.jpg"],
-    "colors": ["Rosso"]
+    "images": [
+      "imgs/cuore_portachiavi/cuore_portachiavi.jpg",
+      "imgs/cuore_portachiavi/cuore_portachiavi2.jpg"
+    ],
+    "colors": [
+      "Rosso"
+    ]
   },
   {
     "id": 4,
     "name": "Porta Telefono",
     "category": "Accessori",
     "sizes": [
-      { "size": "Unico", "price": 4 }
+      {
+        "size": "Unico",
+        "price": 4
+      }
     ],
-    "images": ["imgs/stand_telefono/stand_telefono.jpg", "imgs/stand_telefono/stand_telefono2.jpg"],
-    "colors": ["Giallo-Nero", "Nero"]
+    "images": [
+      "imgs/stand_telefono/stand_telefono.jpg",
+      "imgs/stand_telefono/stand_telefono2.jpg"
+    ],
+    "colors": [
+      "Giallo-Nero",
+      "Nero"
+    ]
   },
   {
     "id": 5,
     "name": "Cuore San Valentino con Luce",
     "category": "Decorazioni",
     "sizes": [
-      { "size": "Unico", "price": 5 }
+      {
+        "size": "Unico",
+        "price": 5
+      }
     ],
-    "images": ["imgs/cuore_valentino/cuore_valentino.jpg", "imgs/cuore_valentino/cuore_valentino2.jpg"],
-    "colors": ["Rosso"]
+    "images": [
+      "imgs/cuore_valentino/cuore_valentino.jpg",
+      "imgs/cuore_valentino/cuore_valentino2.jpg"
+    ],
+    "colors": [
+      "Rosso"
+    ]
   },
   {
     "id": 6,
     "name": "Elefantino",
     "category": "Decorazioni",
     "sizes": [
-      { "size": "Unico", "price": 3 }
+      {
+        "size": "Unico",
+        "price": 3
+      }
     ],
-    "images": ["imgs/elefantino/elefantino.jpeg", "imgs/elefantino/elefantino2.jpeg"],
-    "colors": ["Grigio", "Rosa", "Azzurro"]
+    "images": [
+      "imgs/elefantino/elefantino.jpeg",
+      "imgs/elefantino/elefantino2.jpeg"
+    ],
+    "colors": [
+      "Grigio",
+      "Rosa",
+      "Azzurro"
+    ]
   },
   {
     "id": 7,
     "name": "Orso",
     "category": "Decorazioni",
     "sizes": [
-      { "size": "Unico", "price": 3 }
+      {
+        "size": "Unico",
+        "price": 3
+      }
     ],
-    "images": ["imgs/orso/orso.jpeg"],
-    "colors": ["Bianco", "Marrone"]
+    "images": [
+      "imgs/orso/orso.jpeg"
+    ],
+    "colors": [
+      "Bianco",
+      "Marrone"
+    ]
   },
   {
     "id": 8,
     "name": "Portapenne Cane",
     "category": "Portaoggetti",
     "sizes": [
-      { "size": "Unico", "price": 5 }
+      {
+        "size": "Unico",
+        "price": 5
+      }
     ],
-    "images": ["imgs/portapenne_cane/portapenne_cane.jpeg"],
-    "colors": ["Bianco", "Nero", "Marrone"]
+    "images": [
+      "imgs/portapenne_cane/portapenne_cane.jpeg"
+    ],
+    "colors": [
+      "Bianco",
+      "Nero",
+      "Marrone"
+    ]
   },
   {
     "id": 9,
     "name": "Fantasmino che Legge con LED",
     "category": "Decorazioni",
     "sizes": [
-      { "size": "Unico", "price": 6 }
+      {
+        "size": "Unico",
+        "price": 6
+      }
     ],
-    "images": ["imgs/fantasmino_che_legge_led/fantasmino_che_legge_led.jpeg"],
-    "colors": ["Bianco"]
+    "images": [
+      "imgs/fantasmino_che_legge_led/fantasmino_che_legge_led.jpeg"
+    ],
+    "colors": [
+      "Bianco"
+    ]
   },
   {
     "id": 10,
     "name": "Lampada Voronoi LED",
     "category": "Decorazioni",
     "sizes": [
-      { "size": "Unico", "price": 8 }
+      {
+        "size": "Unico",
+        "price": 8
+      }
     ],
-    "images": ["imgs/Voronoi_Led/Voronoi_Led.jpeg", "imgs/Voronoi_Led/Voronoi_Led2.jpeg", "imgs/Voronoi_Led/Voronoi_Led3.jpeg", "imgs/Voronoi_Led/Voronoi_Led4.jpeg", "imgs/Voronoi_Led/Voronoi_Led5.jpeg"],
-    "colors": ["Bianco", "Grigio", "Nero"]
+    "images": [
+      "imgs/Voronoi_Led/Voronoi_Led.jpeg",
+      "imgs/Voronoi_Led/Voronoi_Led2.jpeg",
+      "imgs/Voronoi_Led/Voronoi_Led3.jpeg",
+      "imgs/Voronoi_Led/Voronoi_Led4.jpeg",
+      "imgs/Voronoi_Led/Voronoi_Led5.jpeg"
+    ],
+    "colors": [
+      "Bianco",
+      "Grigio",
+      "Nero"
+    ]
   }
 ]
