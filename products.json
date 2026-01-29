@@ -107,7 +107,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 3
+        "price": 4
       }
     ],
     "images": [
@@ -127,7 +127,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 3
+        "price": 4
       }
     ],
     "images": [
@@ -145,7 +145,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 5
+        "price": 4
       }
     ],
     "images": [
@@ -164,7 +164,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 6
+        "price": 5
       }
     ],
     "images": [
@@ -176,12 +176,12 @@
   },
   {
     "id": 10,
-    "name": "Lampada Voronoi LED",
+    "name": "Gatto Voronoi LED",
     "category": "Decorazioni",
     "sizes": [
       {
         "size": "Unico",
-        "price": 8
+        "price": 7
       }
     ],
     "images": [
@@ -204,7 +204,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 5
+        "price": 4
       }
     ],
     "images": [
@@ -222,7 +222,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 3
+        "price": 4
       }
     ],
     "images": [
@@ -240,7 +240,7 @@
     "sizes": [
       {
         "size": "Unico",
-        "price": 3
+        "price": 4
       }
     ],
     "images": [
