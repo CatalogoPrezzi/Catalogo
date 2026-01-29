@@ -418,60 +418,18 @@
 
     <script>
         // Dati dei prodotti
-        const products = [
-  {
-    "id": 1,
-    "name": "Portaoggetti",
-    "category": "Portaoggetti",
-    "sizes": [
-      { "size": "10cm", "price": 5 },
-      { "size": "18cm", "price": 10 }
-    ],
-    "images": ["imgs/portaoggetti/portaoggetti.jpg", "imgs/portaoggetti/portaoggetti2.jpg"],
-    "colors": ["Rosso", "Bianco"]
-  },
-  {
-    "id": 2,
-    "name": "Scatola con Rosa",
-    "category": "Scatole",
-    "sizes": [
-      { "size": "6cm", "price": 5 },
-      { "size": "10cm", "price": 10 }
-    ],
-    "images": ["imgs/scatola_con_rosa/scatola_con_rosa.jpg", "imgs/scatola_con_rosa/scatola_con_rosa2.jpg"],
-    "colors": ["Rosso", "Nero"]
-  },
-  {
-    "id": 3,
-    "name": "Cuore Portachiavi",
-    "category": "Accessori",
-    "sizes": [
-      { "size": "Unico", "price": 1 }
-    ],
-    "images": ["imgs/cuore_portachiavi/cuore_portachiavi.jpg", "imgs/cuore_portachiavi/cuore_portachiavi2.jpg"],
-    "colors": ["Rosso"]
-  },
-  {
-    "id": 4,
-    "name": "Porta Telefono",
-    "category": "Accessori",
-    "sizes": [
-      { "size": "Unico", "price": 4 }
-    ],
-    "images": ["imgs/stand_telefono/stand_telefono.jpg", "imgs/stand_telefono/stand_telefono2.jpg"],
-    "colors": ["Giallo-Nero", "Nero"]
-  },
-  {
-    "id": 5,
-    "name": "Cuore San Valentino con Luce",
-    "category": "Decorazioni",
-    "sizes": [
-      { "size": "Unico", "price": 5 }
-    ],
-    "images": ["imgs/cuore_valentino/cuore_valentino.jpg", "imgs/cuore_valentino/cuore_valentino2.jpg"],
-    "colors": ["Rosso"]
-  }
-];
+        let products = [];
+
+        // Carica i prodotti dal JSON
+        async function loadProductsData() {
+            try {
+                const response = await fetch('products.json');
+                products = await response.json();
+                loadProducts();
+            } catch (error) {
+                console.error('Errore nel caricamento dei prodotti:', error);
+            }
+        }
 
         let currentFilter = 'all';
 
@@ -545,7 +503,8 @@
                         'Grigio': '#95a5a6',
                         'Rosa': '#e91e63',
                         'Azzurro': '#1abc9c',
-                        'Arancione': '#e67e22'
+                        'Arancione': '#e67e22',
+                        'Marrone': '#8B4513'
                     };
 
                     product.colors.forEach(color => {
@@ -663,7 +622,7 @@
         }
 
         // Carica tutto al load
-        window.addEventListener('DOMContentLoaded', loadProducts);
+        window.addEventListener('DOMContentLoaded', loadProductsData);
 
         // Fullscreen Modal Functions
         let currentFullscreenProduct = null;
