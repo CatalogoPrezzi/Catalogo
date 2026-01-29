@@ -196,5 +196,60 @@
       "Grigio",
       "Nero"
     ]
+  },
+  {
+    "id": 11,
+    "name": "Portapenne Hello Kitty",
+    "category": "Portaoggetti",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 5
+      }
+    ],
+    "images": [
+      "imgs/hellokitty_portapenne/hellokitty_portapenne.jpeg"
+    ],
+    "colors": [
+      "Bianco",
+      "Rosa"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Ippopotamo",
+    "category": "Decorazioni",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 3
+      }
+    ],
+    "images": [
+      "imgs/ippopotamo/ippopotamo.jpeg"
+    ],
+    "colors": [
+      "Grigio",
+      "Rosa"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Pesce",
+    "category": "Decorazioni",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 3
+      }
+    ],
+    "images": [
+      "imgs/pesce/pesce.jpeg"
+    ],
+    "colors": [
+      "Arancione",
+      "Blu",
+      "Bianco"
+    ]
   }
 ]
