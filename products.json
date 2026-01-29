@@ -251,5 +251,101 @@
       "Blu",
       "Bianco"
     ]
+  },
+  {
+    "id": 14,
+    "name": "Busto Batman",
+    "category": "Decorazioni",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 7
+      }
+    ],
+    "images": [
+      "imgs/batman/batman.jpeg",
+      "imgs/batman/batman2.jpeg"
+    ],
+    "colors": [
+      "Nero",
+      "Grigio"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Cane",
+    "category": "Decorazioni",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 4
+      }
+    ],
+    "images": [
+      "imgs/cane/cane.jpeg",
+      "imgs/cane/cane2.jpeg"
+    ],
+    "colors": [
+      "Bianco",
+      "Beige"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Gatto",
+    "category": "Decorazioni",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 4
+      }
+    ],
+    "images": [
+      "imgs/gatto/gatto.jpeg",
+      "imgs/gatto/gatto2.jpeg"
+    ],
+    "colors": [
+      "Bianco",
+      "Grigio"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Portapenne Gatto",
+    "category": "Portaoggetti",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 4
+      }
+    ],
+    "images": [
+      "imgs/portapenne_gatto/portapenne_gatto.jpeg",
+      "imgs/portapenne_gatto/portapenne_gatto2.jpg"
+    ],
+    "colors": [
+      "Blu",
+      "Bianco",
+      "Rosa"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Tartaruga",
+    "category": "Decorazioni",
+    "sizes": [
+      {
+        "size": "Unico",
+        "price": 4
+      }
+    ],
+    "images": [
+      "imgs/tartaruga/tartaruga.jpeg",
+      "imgs/tartaruga/tartaruga2.jpeg"
+    ],
+    "colors": [
+      "Grigio",
+      "Verde"
+    ]
   }
 ]
