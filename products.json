@@ -85,7 +85,6 @@
   {
     "id": 5,
     "name": "Cuore San Valentino con Luce",
-    "category": "Decorazioni",
     "tags": ["LED"],
     "sizes": [
       {
@@ -161,7 +160,6 @@
   {
     "id": 9,
     "name": "Fantasmino che Legge con LED",
-    "category": "Decorazioni",
     "tags": ["LED"],
     "sizes": [
       {
@@ -179,7 +177,6 @@
   {
     "id": 10,
     "name": "Gatto Voronoi LED",
-    "category": "Decorazioni",
     "tags": ["LED"],
     "sizes": [
       {
